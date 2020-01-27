@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "numepersoana": "Maria Popescu",
+        "dataNasterii": {
+            "ziua": 12,
+            "luna": 7,
+            "anul": 1985
+        }
+    },
+    {
+        "id": 3,
+        "numepersoana": "Maria Popescu",
+        "dataNasterii": {
+            "ziua": 23,
+            "luna": 1,
+            "anul": 1975
+        }
+    },
+    {
+        "id": 2,
+        "numepersoana": "Vlad Alexandrescu",
+        "dataNasterii": {
+            "ziua": 7,
+            "luna": 6,
+            "anul": 2015
+        }
+    }
+]
