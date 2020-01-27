@@ -12,20 +12,20 @@ class ArticolZiDeNastere extends Component {
     render() {
         const zi = this.props.zidenastere
         const { ziua, luna, anul } = zi.dataNasterii;
-        const an = anul == null ? "" : `(${anul})`;
-        const { numepersoana } = zi;
+        const { id, numepersoana } = zi;
         const lunaanului = lunileanului[luna - 1];
         const { handleDelete, handleEdit } = this.props;
+        const urlParams = `id=${id}&numepersoana=${numepersoana}&ziua=${ziua}&luna=${luna}&anul=${anul}`;
 
         return (
             <div className="mt-3 pt-2">
                 <div className="float-left mr-5">
-                    <h6> {`${ziua} ${lunaanului}`} <span className={styles.anul}>{an}</span> </h6>
+                    <h6> {`${ziua} ${lunaanului}`} <span className={styles.anul}>{anul == null ? "" : `(${anul})`}</span> </h6>
                     <h5> {numepersoana} </h5>
                 </div>
                 <div className="float-right ml-5">
                     <div className="d-flex align-content-end flex-wrap">
-                        <MDBLink className="btn btn-primary btn-rounded btn-sm pl-3 text-capitalize" to="/Adauga">
+                        <MDBLink className="btn btn-primary btn-rounded btn-sm pl-3 text-capitalize" to={`/Adauga?${urlParams}`}>
                             <i className="fas fa-edit mr-2"></i>
                             Modifica
                         </MDBLink>

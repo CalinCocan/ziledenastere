@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route } from "react-router-dom"
+import { useRouteMatch } from "react-router-dom";
 import './App.css';
 import _ziledenastere from "./zile.json"
 // import ZiDeNastere from './zidenastere-card';
 // import ArticolZiDeNastere from "./zidenastere-lista"
-import ListaZile from "./ListaZile"
+// import ListaZile from "./ListaZile"
 import Lista from "./Lista"
 import Formular from "./Formular"
 import Despre from "./Despre"
@@ -16,7 +17,7 @@ class App extends Component {
     this.state = {
       // ziledenastere: _ziledenastere,
       ziledenastere: JSON.parse(window.localStorage.getItem("ZileDeNastere")),
-      buffer: {
+      buffer: {   //nu se mai foloseste, se poate elimina
         id: 0,
         numepersoana: "",
         dataNasterii: {
@@ -31,6 +32,7 @@ class App extends Component {
     this.stergeZi = this.stergeZi.bind(this);
     this.adaugaZi = this.adaugaZi.bind(this);
     this.actualizeazaZi = this.actualizeazaZi.bind(this);
+    this.actualizeazaLista = this.actualizeazaLista.bind(this);
     this.editeazaZi = this.editeazaZi.bind(this);
   }
 
@@ -40,25 +42,36 @@ class App extends Component {
     this.setState({ ziledenastere: this.state.ziledenastere.filter(item => item.id !== id) })
   }
 
-  // actualizeazaZi(ev) {
-  //   ev.preventDefault();
-  //   const {name, value} = ev.target;
-  //   const tmp=Object.assign({},this.state.buffer);
-  //   tmp.numepersoana=ev.target
-  //   this.setState({buffer[name]:value})
-  // }
-
   adaugaZi(zi) {
     let maxID = 0;
-    let zile = this.state.ziledenastere;
-    if (this.state.ziledenastere != null) {
-      maxID = this.state.ziledenastere.reduce((max, item) => Math.max(max, item.id), 0);
-      zile.push(zi);
-    } else {
-      zile = [zi];
-    }
+    let zile;
+    //
+    // //>>>> Secvenat de mai jos functioneaza bine si est emai usor de inteles dar am rescris-o 
+    // //>>>> pentru a evidentia mecanismul de referinta Javascript
+    //
+    // if (this.state.ziledenastere === null) {
+    //   zile = [];
+    //   maxID = 0;
+    // } else {
+    //   zile = [...this.state.ziledenastere];
+    //   maxID = zile.reduce((max, item) => Math.max(max, item.id), 0);
+    // }
+    // zi.id = maxID + 1;
+    // zile.push(zi);
+    // // zi.id = maxID + 10;  // verifica ca "zi" se adaga in tabloul rezultant ca si referinta si nu ca si valoare
+    //
+    //  //>>>>> Aici se incheie secventa. Fcuntioneaza la fel de bine ca si secventa de mai jos
+    //
 
-    zi.id = maxID + 1;
+    if (this.state.ziledenastere === null) {
+      zile = [zi];
+      maxID = 0;
+    } else {
+      zile = [...this.state.ziledenastere, zi];
+      maxID = zile.reduce((max, item) => Math.max(max, item.id), 0);
+    }
+    zi.id = maxID + 1;  //"zi" is a JS reference, then the value is reflected in the array "zile"
+
     this.setState({
       // ziledenastere: [...zile, zi],
       ziledenastere: zile,
@@ -79,15 +92,17 @@ class App extends Component {
   }
 
   actualizeazaZi(bufZi) {
-    // ev.preventDefault();
-    // const { name, value } = ev.target;
-    // tmp.numepersoana = ev.target
-    // const tmp = Object.assign({}, this.state.buffer);
-    const tmpZile = this.state.ziledenastere.map(item => item.id === bufZi.id ? item : bufZi);
+    const tmpZile = this.state.ziledenastere.map(item => item.id === bufZi.id ? bufZi : item);
     this.setState({
       ziledenastere: tmpZile,
       buffer: bufZi
     })
+  }
+
+  actualizeazaLista(zi) {
+    if (zi.id === 0)
+      this.adaugaZi(zi);
+    else this.actualizeazaZi(zi);
   }
 
   editeazaZi(ev) {
@@ -113,12 +128,16 @@ class App extends Component {
         {/* <ListaZile listazile={this.state.ziledenastere} handleEdit={this.editeazaZi} handleDelete={this.stergeZi} /> */}
         <Switch>
           <Route exact path="/">
-            {/* <ListaZile listazile={zileordonate} handleEdit={this.editeazaZi} handleDelete={this.stergeZi} /> */}
             <Lista listazile={zileordonate} handleEdit={this.editeazaZi} handleDelete={this.stergeZi} />
+          </Route>
+          <Route exact path="/Adauga">
+            <Formular key={this.state.buffer.id} buffer={this.state.buffer}
+              handleSubmit={this.actualizeazaLista} />
           </Route>
           <Route path="/Adauga">
             <Formular key={this.state.buffer.id} buffer={this.state.buffer}
-              handleSubmit={this.adaugaZi} />
+              // handleSubmit={this.adaugaZi} />
+              handleSubmit={this.actualizeazaLista} />
           </Route>
           <Route path="/Despre">
             <Despre />
