@@ -10,7 +10,7 @@ class Despre extends Component {
     render() {
         return (
             <MDBJumbotron className="text-center">
-                <h4>Aplicatie demonstartiva realizata pentru sustinerea examenului de absolvire la disciplinei </h4>
+                <h4>Aplicatie demonstrativa realizata pentru sustinerea examenului la disciplina </h4>
                 <h4> <strong>Programarea Interfetelor Utillizator</strong></h4>
                 <h5>  </h5>
                 <h5> ---    autor: <strong>Cocan Gheorghe-Calin </strong>    --- </h5>
