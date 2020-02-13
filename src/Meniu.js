@@ -31,6 +31,9 @@ class NavbarPage extends Component {
                         <MDBNavItem>
                             <MDBNavLink to="/Adauga">Adauga</MDBNavLink>
                         </MDBNavItem>
+                        {/* <MDBNavItem>
+                            <MDBNavLink to="/InFormatCard">(format card)</MDBNavLink>
+                        </MDBNavItem> */}
                         <MDBNavItem>
                             <MDBNavLink to="/Despre">Despre</MDBNavLink>
                         </MDBNavItem>

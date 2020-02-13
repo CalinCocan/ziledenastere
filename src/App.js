@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom"
 import { useRouteMatch } from "react-router-dom";
 import './App.css';
 import _ziledenastere from "./zile.json"
-// import ZiDeNastere from './zidenastere-card';
+import ZiDeNastere from './zidenastere-card';
 // import ArticolZiDeNastere from "./zidenastere-lista"
 // import ListaZile from "./ListaZile"
 import Lista from "./Lista"
@@ -131,16 +131,21 @@ class App extends Component {
             <Lista listazile={zileordonate} handleEdit={this.editeazaZi} handleDelete={this.stergeZi} />
           </Route>
           <Route exact path="/Adauga">
-            <Formular key={this.state.buffer.id} buffer={this.state.buffer}
-              handleSubmit={this.actualizeazaLista} />
+            {/* <Formular key={this.state.buffer.id} buffer={this.state.buffer}
+              handleSubmit={this.actualizeazaLista} /> */}
+            <Formular handleSubmit={this.actualizeazaLista} />
           </Route>
           <Route path="/Adauga">
-            <Formular key={this.state.buffer.id} buffer={this.state.buffer}
+            {/* <Formular key={this.state.buffer.id} buffer={this.state.buffer}
               // handleSubmit={this.adaugaZi} />
-              handleSubmit={this.actualizeazaLista} />
+              handleSubmit={this.actualizeazaLista} /> */}
+            <Formular handleSubmit={this.actualizeazaLista} />
           </Route>
           <Route path="/Despre">
             <Despre />
+          </Route>
+          <Route path="/InFormatCard">
+            <ZiDeNastere zidenastere={_ziledenastere[0]} />
           </Route>
         </Switch>
       </div>
